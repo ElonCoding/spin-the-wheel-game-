@@ -37,6 +37,31 @@ canvas {
     height: 100%;
     display: block;
     transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1);
+    transform-origin: center;
+}
+
+@keyframes spin-start {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes spin-slow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+:root {
+    --final-rotation: 1080deg;
+}
+
+.wheel-spinning {
+    animation: spin-start 0.5s linear infinite;
+}
+
+.wheel-stopping {
+    animation: none;
+    transition: transform 3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform: rotate(var(--final-rotation));
 }
 
 .pointer {

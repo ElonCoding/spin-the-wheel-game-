@@ -56,22 +56,50 @@ function drawWheel() {
 }
 
 function rotateWheel() {
-    spinTime += 30;
-    if (spinTime >= spinTimeTotal) {
-        stopRotateWheel();
-        return;
-    }
-    const spinAngle = spinAngleStart - easeOut(spinTime, 0, spinAngleStart, spinTimeTotal);
-    wheelCanvas.style.transform = `rotate(\${spinAngle}deg)`;
-    spinTimeout = setTimeout(rotateWheel, 30);
+    // Add spinning animation classes
+    wheelCanvas.classList.add('wheel-spinning');
+    
+    // Calculate a random final rotation between 2 and 10 full rotations
+    const finalRotation = 720 + Math.floor(Math.random() * 2880);
+    
+    // Set the final rotation as a custom property that can be used in CSS
+    wheelCanvas.style.setProperty('--final-rotation', `${finalRotation}deg`);
+    
+    // Set timeout for stopping the wheel
+    spinTimeout = setTimeout(() => {
+        // Switch to stopping animation
+        wheelCanvas.classList.remove('wheel-spinning');
+        wheelCanvas.classList.add('wheel-stopping');
+        
+        // Calculate the final position for determining the winner
+        spinAngleStart = finalRotation % 360;
+        
+        // Set timeout for when wheel fully stops
+        setTimeout(stopRotateWheel, 3000);
+    }, 2000);
 }
 
 function stopRotateWheel() {
     clearTimeout(spinTimeout);
+    
+    // Remove animation classes and set final transform
+    wheelCanvas.classList.remove('wheel-spinning', 'wheel-stopping');
+    wheelCanvas.style.transform = `rotate(${spinAngleStart}deg)`;
+    
     const degrees = (spinAngleStart % 360 + 360) % 360; // Ensure positive degrees
     const winningSegmentIndex = Math.floor(numSegments - (degrees / 360 * numSegments)) % numSegments;
     const winningSegment = segments[winningSegmentIndex];
 
+    // Add a small shake animation to the wheel to emphasize the stop
+    wheelCanvas.animate([
+        { transform: `rotate(${spinAngleStart - 5}deg)` },
+        { transform: `rotate(${spinAngleStart + 5}deg)` },
+        { transform: `rotate(${spinAngleStart}deg)` }
+    ], {
+        duration: 500,
+        iterations: 1
+    });
+    
     // Play win sound
     winSound.play();
 
@@ -110,9 +138,19 @@ function showResultPopup(result) {
 spinButton.addEventListener('click', () => {
     spinButton.disabled = true;
     spinSound.play();
-    spinTime = 0;
-    spinTimeTotal = Math.random() * 3000 + 4000; // Spin for 4-7 seconds
-    spinAngleStart = Math.random() * 10 + 360 * 5; // Spin at least 5 full rotations
+    
+    // Reset any existing transforms and animations
+    wheelCanvas.style.transition = 'none';
+    wheelCanvas.style.transform = 'rotate(0deg)';
+    wheelCanvas.classList.remove('wheel-spinning', 'wheel-stopping');
+    
+    // Force reflow to ensure the reset takes effect immediately
+    void wheelCanvas.offsetWidth;
+    
+    // Restore transition
+    wheelCanvas.style.transition = '';
+    
+    // Start the wheel rotation
     rotateWheel();
 });
 
