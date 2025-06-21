@@ -4,7 +4,7 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    background-color: #f0f0f0;
+    background: linear-gradient(to bottom, #8a2be2, #4b0082); /* Purple gradient */
     font-family: Arial, sans-serif;
     overflow: hidden;
 }
@@ -50,6 +50,15 @@ canvas {
     100% { transform: rotate(360deg); }
 }
 
+@keyframes spin-stop-animation {
+    0% { transform: rotate(var(--final-rotation, 0deg)); }
+    20% { transform: rotate(calc(var(--final-rotation, 0deg) + 5deg)); }
+    40% { transform: rotate(calc(var(--final-rotation, 0deg) - 5deg)); }
+    60% { transform: rotate(calc(var(--final-rotation, 0deg) + 2deg)); }
+    80% { transform: rotate(calc(var(--final-rotation, 0deg) - 2deg)); }
+    100% { transform: rotate(var(--final-rotation, 0deg)); }
+}
+
 :root {
     --final-rotation: 1080deg;
 }
@@ -59,22 +68,33 @@ canvas {
 }
 
 .wheel-stopping {
-    animation: none;
-    transition: transform 3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    transform: rotate(var(--final-rotation));
+    animation: spin-stop-animation 1s ease-out forwards;
+    transition: none;
 }
 
 .pointer {
     position: absolute;
     top: -20px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) rotate(90deg);
     width: 0;
     height: 0;
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
     border-bottom: 30px solid red;
     z-index: 10;
+}
+
+@keyframes shake {
+    0% { transform: translateX(-50%) rotate(90deg); }
+    25% { transform: translateX(-50%) rotate(85deg); }
+    50% { transform: translateX(-50%) rotate(95deg); }
+    75% { transform: translateX(-50%) rotate(85deg); }
+    100% { transform: translateX(-50%) rotate(90deg); }
+}
+
+.pointer.shake {
+    animation: shake 0.3s ease-in-out;
 }
 
 #spinButton {

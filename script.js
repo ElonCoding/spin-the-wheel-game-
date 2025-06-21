@@ -82,29 +82,29 @@ function rotateWheel() {
 function stopRotateWheel() {
     clearTimeout(spinTimeout);
     
-    // Remove animation classes and set final transform
-    wheelCanvas.classList.remove('wheel-spinning', 'wheel-stopping');
-    wheelCanvas.style.transform = `rotate(${spinAngleStart}deg)`;
+    // Remove spinning class, stopping class will be removed after its animation
+    wheelCanvas.classList.remove('wheel-spinning');
     
     const degrees = (spinAngleStart % 360 + 360) % 360; // Ensure positive degrees
     const winningSegmentIndex = Math.floor(numSegments - (degrees / 360 * numSegments)) % numSegments;
     const winningSegment = segments[winningSegmentIndex];
-
-    // Add a small shake animation to the wheel to emphasize the stop
-    wheelCanvas.animate([
-        { transform: `rotate(${spinAngleStart - 5}deg)` },
-        { transform: `rotate(${spinAngleStart + 5}deg)` },
-        { transform: `rotate(${spinAngleStart}deg)` }
-    ], {
-        duration: 500,
-        iterations: 1
-    });
     
+    // Add shake animation to the pointer
+    const pointer = document.querySelector('.pointer');
+    pointer.classList.add('shake');
+    pointer.addEventListener('animationend', () => {
+        pointer.classList.remove('shake');
+    }, { once: true });
+
     // Play win sound
     winSound.play();
 
-    showResultPopup(winningSegment.text);
-    spinButton.disabled = false;
+    wheelCanvas.addEventListener('animationend', () => {
+        wheelCanvas.classList.remove('wheel-stopping');
+        wheelCanvas.style.transform = `rotate(${spinAngleStart}deg)`; // Ensure final position is set
+        showResultPopup(winningSegment.text);
+        spinButton.disabled = false;
+    }, { once: true });
 }
 
 function easeOut(t, b, c, d) {
