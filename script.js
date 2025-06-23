@@ -10,7 +10,7 @@ const segments = [
     { text: 'Prize 5', color: '#FF4500' },
     { text: 'Prize 6', color: '#1E90FF' },
     { text: 'Prize 7', color: '#DA70D6' },
-    { text: 'Prize 8', color: '#FFD700' },
+    { text: 'Prize 8', color: '#00FFFF' },
 ];
 
 const numSegments = segments.length;
