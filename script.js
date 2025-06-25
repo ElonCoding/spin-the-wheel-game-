@@ -75,7 +75,7 @@ function rotateWheel() {
         spinAngleStart = finalRotation % 360;
         
         // Set timeout for when wheel fully stops
-        setTimeout(stopRotateWheel, 3000);
+        setTimeout(stopRotateWheel, 1000); // Match spin-stop-animation duration
     }, 2000);
 }
 

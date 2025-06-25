@@ -51,12 +51,12 @@ canvas {
 }
 
 @keyframes spin-stop-animation {
-    0% { transform: rotate(var(--final-rotation, 0deg)); opacity: 1; }
-    20% { transform: rotate(calc(var(--final-rotation, 0deg) + 5deg)); opacity: 0.9; }
-    40% { transform: rotate(calc(var(--final-rotation, 0deg) - 5deg)); opacity: 0.8; }
-    60% { transform: rotate(calc(var(--final-rotation, 0deg) + 2deg)); opacity: 0.7; }
-    80% { transform: rotate(calc(var(--final-rotation, 0deg) - 2deg)); opacity: 0.6; }
-    100% { transform: rotate(var(--final-rotation, 0deg)); opacity: 0.5; }
+    0% { transform: rotate(var(--final-rotation, 0deg)) scale(1); opacity: 1; }
+    20% { transform: rotate(calc(var(--final-rotation, 0deg) + 10deg)) scale(0.98); opacity: 0.8; }
+    40% { transform: rotate(calc(var(--final-rotation, 0deg) - 10deg)) scale(0.96); opacity: 0.6; }
+    60% { transform: rotate(calc(var(--final-rotation, 0deg) + 5deg)) scale(0.94); opacity: 0.4; }
+    80% { transform: rotate(calc(var(--final-rotation, 0deg) - 5deg)) scale(0.92); opacity: 0.2; }
+    100% { transform: rotate(var(--final-rotation, 0deg)) scale(0.9); opacity: 0; }
 }
 
 :root {
