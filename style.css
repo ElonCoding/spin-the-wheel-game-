@@ -4,7 +4,7 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    background: linear-gradient(to bottom, #8a2be2, #4b0082); /* Purple gradient */
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
     font-family: Arial, sans-serif;
     overflow: hidden;
 }
@@ -15,6 +15,9 @@ body {
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    max-width: 90%; /* Added for responsiveness */
+    width: 600px; /* Max width for larger screens */
+    box-sizing: border-box; /* Include padding in width */
 }
 
 h1 {
@@ -24,8 +27,10 @@ h1 {
 
 .wheel-container {
     position: relative;
-    width: 400px;
-    height: 400px;
+    width: 80vw; /* Responsive width */
+    max-width: 400px; /* Max width for larger screens */
+    height: 80vw; /* Keep aspect ratio */
+    max-height: 400px; /* Max height for larger screens */
     margin: 0 auto 30px;
     border-radius: 50%;
     overflow: hidden;
@@ -159,4 +164,38 @@ canvas {
 
 .popup button:hover {
     background-color: #45a049;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .wheel-container {
+        width: 90vw;
+        height: 90vw;
+    }
+
+    #spinButton {
+        padding: 12px 25px;
+        font-size: 18px;
+    }
+
+    .popup {
+        padding: 20px;
+        width: 80%;
+    }
+
+    .popup h2 {
+        font-size: 1.5em;
+    }
+
+    .popup button {
+        padding: 8px 15px;
+        font-size: 16px;
+    }
 }
