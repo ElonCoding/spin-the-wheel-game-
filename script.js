@@ -96,9 +96,6 @@ function stopRotateWheel() {
         pointer.classList.remove('shake');
     }, { once: true });
 
-    // Play win sound
-    winSound.play();
-
     wheelCanvas.addEventListener('animationend', () => {
         wheelCanvas.classList.remove('wheel-stopping');
         wheelCanvas.style.transform = `rotate(${spinAngleStart}deg)`; // Ensure final position is set
@@ -125,6 +122,7 @@ function showResultPopup(result) {
 
     setTimeout(() => {
         popup.classList.add('show');
+        winSound.play(); // Play sound after popup is shown
     }, 10);
 
     document.getElementById('closePopup').addEventListener('click', () => {
